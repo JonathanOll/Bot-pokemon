@@ -3,7 +3,6 @@ import json
 from urllib import request
 from urllib.error import HTTPError
 import random
-from captcha_solver import CaptchaSolver
 
 run = True
 
@@ -174,6 +173,120 @@ def last_pokemon_name(id, token):
         print(e.hdrs)
         print(e)
 
+def pokeballs_count(id, token):
+    if not last_message_name(id, lashox).__contains__("Pok"):
+        return "none"
+
+    WEBHOOK_URL = 'https://discord.com/api/v8/channels/' + str(id) + '/messages?limit=1'
+
+    # Les paramètres d'en-tête de la requête
+    headers = {
+        'content-type': 'application/json',
+        'user-agent': 'Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11',
+        'authorization': token
+    }
+
+    # Enfin on construit notre requête
+    req = request.Request(url=WEBHOOK_URL, headers=headers, method='GET')
+
+    # Puis on l'émet !
+    try:
+        response = request.urlopen(req)
+        resp = str(response.read()).replace(" ","").split('Pokeballs:')
+        resp = resp[1].split('|')[0].split('\\')[0].strip()
+        return resp
+    except HTTPError as e:
+        print('ERROR')
+        print(e.reason)
+        print(e.hdrs)
+        print(e)
+
+def greatballs_count(id, token):
+    if not last_message_name(id, lashox).__contains__("Pok"):
+        return "none"
+
+    WEBHOOK_URL = 'https://discord.com/api/v8/channels/' + str(id) + '/messages?limit=1'
+
+    # Les paramètres d'en-tête de la requête
+    headers = {
+        'content-type': 'application/json',
+        'user-agent': 'Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11',
+        'authorization': token
+    }
+
+    # Enfin on construit notre requête
+    req = request.Request(url=WEBHOOK_URL, headers=headers, method='GET')
+
+    # Puis on l'émet !
+    try:
+        response = request.urlopen(req)
+        resp = str(response.read()).split('Greatballs:')
+        resp = resp[1].split('|')[0].split('\\')[0].strip()
+        return resp
+    except HTTPError as e:
+        print('ERROR')
+        print(e.reason)
+        print(e.hdrs)
+        print(e)
+
+def ultraballs_count(id, token):
+    if not last_message_name(id, lashox).__contains__("Pok"):
+        return "none"
+
+    WEBHOOK_URL = 'https://discord.com/api/v8/channels/' + str(id) + '/messages?limit=1'
+
+    # Les paramètres d'en-tête de la requête
+    headers = {
+        'content-type': 'application/json',
+        'user-agent': 'Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11',
+        'authorization': token
+    }
+
+    # Enfin on construit notre requête
+    req = request.Request(url=WEBHOOK_URL, headers=headers, method='GET')
+
+    # Puis on l'émet !
+    try:
+        response = request.urlopen(req)
+        resp = str(response.read()).split('Ultraballs:')
+        resp = resp[1].split('|')[0].split('\\')[0].strip()
+        return resp
+    except HTTPError as e:
+        print('ERROR')
+        print(e.reason)
+        print(e.hdrs)
+        print(e)
+
+def masterballs_count(id, token):
+    if not last_message_name(id, lashox).__contains__("Pok"):
+        return "none"
+
+    WEBHOOK_URL = 'https://discord.com/api/v8/channels/' + str(id) + '/messages?limit=1'
+
+    # Les paramètres d'en-tête de la requête
+    headers = {
+        'content-type': 'application/json',
+        'user-agent': 'Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11',
+        'authorization': token
+    }
+
+    # Enfin on construit notre requête
+    req = request.Request(url=WEBHOOK_URL, headers=headers, method='GET')
+
+    # Puis on l'émet !
+    try:
+        response = request.urlopen(req)
+        resp = str(response.read()).split('Masterballs:')
+        resp = resp[1].split('|')[0].split('\\')[0].split('"')[0].strip()
+        return resp
+    except HTTPError as e:
+        print('ERROR')
+        print(e.reason)
+        print(e.hdrs)
+        print(e)
+
+
+
 def launch(id, token):
     while(run):
         sendMessage(";p", id, token)
@@ -190,23 +303,22 @@ def launch(id, token):
         elif rarity == "Uncommon":
             pokeball = 'pb'
         elif rarity == "Rare":
-            pokeball = 'pb'
-        elif rarity == "Super Rare":
             pokeball = 'gb'
+        elif rarity == "Super Rare":
+            pokeball = 'ub'
         elif rarity == "Legendary":
             pokeball = 'mb'
         elif rarity == "Gold":
             pokeball = 'mb'
         else:
             pokeball = 'pb'
-
         if name.startswith("Shiny") and pokeball != 'mb':
             pokeball = 'ub'
-
         print("recognized %s rarity %s so I'll use %s" % (
         last_pokemon_name(id, token), last_pokemon_rarity(id, token), pokeball))
 
         sendMessage(pokeball, id, token)
         time.sleep(10)
 
-launch('id du channel', 'votre token discord')
+
+launch('id du channel', 'votre token')
