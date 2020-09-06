@@ -209,4 +209,4 @@ def launch(id, token):
         sendMessage(pokeball, id, token)
         time.sleep(10)
 
-launch('id du channel', lashox)
+launch('id du channel', 'votre token discord')
